@@ -18,6 +18,10 @@ void main()
     highp vec4 color       = subpassLoad(in_color).rgba;
     
     // texture(color_grading_lut_texture_sampler, uv)
+    highp float xInv = 1.0 / float(lut_tex_size.x), yInv = 1.0 / float(lut_tex_size.y);
+    highp float u = color.r * xInv + color.b * yInv;
+    highp float v = color.g * yInv;
+    color.rgb = texture(color_grading_lut_texture_sampler, vec2(u, v)).rgb;
 
     out_color = color;
 }
